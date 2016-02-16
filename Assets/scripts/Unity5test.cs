@@ -10,6 +10,6 @@ public class Unity5test : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetMouseButton(0)) GetComponent<Rigidbody>().AddTorque(0,0,-100);
+        if (Input.GetMouseButton(0)) GetComponent<Rigidbody>().AddForce(-GetComponent<Rigidbody>().velocity * 5 );
 	}
 }

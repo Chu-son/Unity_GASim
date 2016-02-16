@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{83484216-E9A1-2509-202F-EC824EA73B72}</ProjectGuid>
+    <ProjectGuid>{2CBC29E6-39D9-258E-ED0E-CF07EE3F5F3C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -47,6 +47,10 @@
   <ItemGroup>
      <Compile Include="Assets\scripts\ButtonTextAccesser.cs" />
      <Compile Include="Assets\scripts\CreateNodes.cs" />
+     <Compile Include="Assets\scripts\FishSim\FishScript.cs" />
+     <Compile Include="Assets\scripts\FishSim\Resistance.cs" />
+     <Compile Include="Assets\scripts\GABaseContoller.cs" />
+     <Compile Include="Assets\scripts\GABaseScript.cs" />
      <Compile Include="Assets\scripts\GAcontroller.cs" />
      <Compile Include="Assets\scripts\GAscript.cs" />
      <Compile Include="Assets\scripts\LoadDatas.cs" />
@@ -67,7 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{7AEED99F-CB03-5F12-0A95-7841B69C6A6D}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{5D71EEDF-FE24-75F1-5421-A120B5BB2CEB}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3905,7 +3905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ed749eb8e994624bbe5f449a0bdf61d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultObject: {fileID: 148178, guid: 24bc8f091df2e84439b20d3ce4358766, type: 2}
+  individualPrefab: {fileID: 148178, guid: 24bc8f091df2e84439b20d3ce4358766, type: 2}
   numOfIndividuals: 100
   numOfElites: 2
   mutantRate: 5

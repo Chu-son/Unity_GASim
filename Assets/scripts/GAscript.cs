@@ -3,25 +3,14 @@ using System.Collections;
 
 using System.IO;
 
-public class GAscript : MonoBehaviour {
+public class GAscript : GABaseScript{
 
     public int individualSize;
     public GameObject head;
     public GameObject body;
-    private GameObject[] individualBodys;
-
-    public int numOfLearnFrames;
-    public float interval;
-
-    public byte[] geneList{ set; get; }
-    public int geneSize { set; get; }
 
     private int frameCount = 0;
     private float timer = 0;
-
-    private Vector3 initPos;
-    private Vector3[] initPositions;
-    private Quaternion[] initRotations;
 
     static private GameObject activeCamera;
     public GameObject ownCamera;
@@ -36,19 +25,17 @@ public class GAscript : MonoBehaviour {
     void FixedUpdate()
     {
         timer += Time.deltaTime;
-        if (frameCount < numOfLearnFrames && timer > interval)
+        if (frameCount < frames && timer > interval)
         {
-            //Debug.Log(frameCount);
-
             commit();
             frameCount++;
             timer = 0;
         }
-        else if(frameCount == numOfLearnFrames && timer > interval)
+        else if(frameCount == frames && timer > interval)
         {
             defaultPosture();
             timer = 0;
-            frameCount = numOfLearnFrames+2;
+            frameCount = frames+2;
         }
     }
 
@@ -78,24 +65,17 @@ public class GAscript : MonoBehaviour {
         }
     }
 
-    public void initialize(byte[] gene = null)
+    override public void initialize(byte[] gene = null)
     {
         makeIndividual();
 
         geneSize = individualBodys.Length * 2 - 1;
-        geneList = new byte[geneSize * numOfLearnFrames];
+        geneList = new byte[geneSize * frames];
 
-        if (gene == null) resetGeneList();
+        if (gene == null) setRandomGene(3);
         else geneList = gene;
 
-        initPos = individualBodys[0].transform.position;
-        initPositions = new Vector3[individualBodys.Length];
-        initRotations = new Quaternion[individualBodys.Length];
-        for (int i = 0; i < individualBodys.Length; i++)
-        {
-            initPositions[i] = individualBodys[i].transform.position;
-            initRotations[i] = individualBodys[i].transform.rotation;
-        }
+        BuffInitPosition();
 
         activeCamera = GameObject.Find("Main Camera");
 
@@ -105,28 +85,21 @@ public class GAscript : MonoBehaviour {
     public void resetParameters(int individualSize,int frame , float interval)
     {
         this.individualSize = individualSize;
-        this.numOfLearnFrames = frame;
-        this.interval = interval;
+        resetParameters(frame, interval);
     }
 
     public void restart(byte[] gene = null)
     {
-        for (int i = 0; i < individualBodys.Length; i++) Destroy(individualBodys[i]);
-
         timer = 0;
         frameCount = 0;
-        initialize(gene);
+        base.restart(gene);
     }
 
-    private void commit()
+    override protected void commit()
     {
         for(int i = geneSize*frameCount;i<geneSize*(frameCount+1)-1;i++)
         {
             int individualBodysIndex = (i - geneSize * frameCount)/2;
-
-            //Debug.Log("genesize:" + geneSize);
-            //Debug.Log("i:" + i);
-            //Debug.Log("individualBodysIndex:" + individualBodysIndex);
 
             switch (geneList[i])
             {
@@ -181,74 +154,14 @@ public class GAscript : MonoBehaviour {
         }
     }
 
-    public float absDisplacement()
-    {
-        //defaultPosture();
-        return System.Math.Abs(initPos.x - individualBodys[0].transform.position.x);
-    }
-
-    public float getGenerationInterval()
-    {
-        return interval * numOfLearnFrames;
-    }
-
     public void nextGeneration()
     {
-        resetPositions();
+        base.nextGeneration();
         frameCount = 0;
-        //resetGeneList();
         timer = 0;
     }
 
-    public void resetGeneList()
-    {
-        for (int i = 0; i < geneSize * numOfLearnFrames; i++)
-        {
-            geneList[i] = (byte)(Random.Range(0, 3) + 0.5);
-        }
-    }
-
-    private void setMotor(GameObject obj, float degree)
-    {
-        HingeJoint hinge = obj.GetComponent<HingeJoint>();
-
-        JointMotor motor = hinge.motor;
-        motor.targetVelocity = degree * 1.5f;
-        motor.force = 5000;
-
-        JointLimits jLim = hinge.limits;
-        if (degree > 0) jLim.max = degree;
-        else if (degree < 0) jLim.min = degree;
-        else
-        {
-            if (hinge.angle > 0)
-            {
-                jLim.min = 0;
-                motor.targetVelocity = -45f;
-            }
-            else
-            {
-                jLim.max = 0;
-                motor.targetVelocity = 45f;
-            }
-            
-        }
-
-        hinge.motor = motor;
-        hinge.useMotor = true;
-        hinge.limits = jLim;
-        hinge.useLimits = true;
-    }
-
-    private void resetPositions()
-    {
-        for(int i = 0;i<individualBodys.Length;i++)
-        {
-            individualBodys[i].transform.position = initPositions[i];
-            individualBodys[i].transform.rotation = initRotations[i];
-        }
-    }
-    private void defaultPosture()
+    protected void defaultPosture()
     {
         frameCount = 0;
         for (int i = geneSize * frameCount; i < geneSize * (frameCount + 1) - 1; i++)
@@ -263,16 +176,5 @@ public class GAscript : MonoBehaviour {
         activeCamera.SetActive(false);
         ownCamera.SetActive(true);
         activeCamera = ownCamera;
-    }
-
-    public void parametersToString(BinaryWriter w)
-    {
-        string str = "IndividualSize," + individualBodys.Length + ",\n";
-        str += "Frames," + numOfLearnFrames + ",\n";
-        str += "Interval," + interval + ",\n";
-
-        w.Write(individualBodys.Length);
-        w.Write(numOfLearnFrames);
-        w.Write(interval);
     }
 }

@@ -128,11 +128,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac981205a84346478530464fc0b933b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  individualBodys: []
+  frames: 20
+  interval: 1
   individualSize: 4
   head: {fileID: 175340, guid: 356aa0a22545d1c40a96843b0e6e1205, type: 2}
   body: {fileID: 144762, guid: ceb4b378cf77c6b46a664a273a15fe78, type: 2}
-  numOfLearnFrames: 30
-  interval: 1
   ownCamera: {fileID: 135376}
 --- !u!124 &12418510
 Behaviour:
@@ -168,6 +169,10 @@ Prefab:
       propertyPath: m_CustomSkybox
       value: 
       objectReference: {fileID: 2100000, guid: a2126534b3a11b34e977105bd9e3cc03, type: 2}
+    - target: {fileID: 0}
+      propertyPath: frames
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 148178}
