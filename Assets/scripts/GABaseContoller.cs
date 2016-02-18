@@ -88,7 +88,7 @@ public class GABaseContoller : MonoBehaviour {
             pos.z += 5;
         }
 
-        generationInterval = individualPrefab.GetComponent<GAscript>().getGenerationInterval();
+        generationInterval = individualPrefab.GetComponent<GABaseScript>().getGenerationInterval();
 
     }
 

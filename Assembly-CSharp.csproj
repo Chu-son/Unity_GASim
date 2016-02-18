@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\scripts\ButtonTextAccesser.cs" />
      <Compile Include="Assets\scripts\CreateNodes.cs" />
+     <Compile Include="Assets\scripts\FishSim\FishController.cs" />
      <Compile Include="Assets\scripts\FishSim\FishScript.cs" />
      <Compile Include="Assets\scripts\FishSim\Resistance.cs" />
      <Compile Include="Assets\scripts\GABaseContoller.cs" />
